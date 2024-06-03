@@ -4,9 +4,19 @@
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/context/auth"; // ユーザー情報を取得するためのカスタムフックをインポート
 import { useEffect, useState } from "react";
-import { doc, getDoc } from "firebase/firestore";
+import { doc, getDoc, collection, getDocs } from "firebase/firestore";
 import { db } from "@/lib/firebase"; // Firestore の初期化ファイルをインポート
 import { Essay } from "@/types/essay";
+
+export async function generateStaticParams() {
+  // Firestore からエッセイの ID を取得
+  const essaysSnapshot = await getDocs(collection(db, 'essays'));
+  const paths = essaysSnapshot.docs.map(doc => ({
+    id: doc.id,
+  }));
+
+  return paths;
+}
 
 export default function EssayDetail({ params }: { params: { id: string } }) {
   const router = useRouter();
@@ -16,7 +26,6 @@ export default function EssayDetail({ params }: { params: { id: string } }) {
   const user = useAuth(); // 現在のユーザーを取得
 
   useEffect(() => {
-
     if (!user) {
       // ユーザーが認証されていない場合はログインページにリダイレクト
       router.push('/login');
@@ -43,7 +52,7 @@ export default function EssayDetail({ params }: { params: { id: string } }) {
     };
 
     fetchEssay();
-  }, [id, router]);
+  }, [id, router, user]);
 
   if (loading) {
     return <p>読み込み中...</p>;
