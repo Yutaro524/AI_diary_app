@@ -4,17 +4,13 @@
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/context/auth"; // ユーザー情報を取得するためのカスタムフックをインポート
 import { useEffect, useState } from "react";
-import { doc, getDoc, collection, getDocs } from "firebase/firestore";
+import { doc, getDoc } from "firebase/firestore";
 import { db } from "@/lib/firebase"; // Firestore の初期化ファイルをインポート
 import { Essay } from "@/types/essay";
 
-export async function generateStaticParams() {
-  const essaysSnapshot = await getDocs(collection(db, "essays"));
-  const paths = essaysSnapshot.docs.map((doc) => ({
-    params: { id: doc.id },
-  }));
-  return paths;
-}
+// export async function generateStaticParams() {
+//   // ここにデータ取得のロジックを追加
+// }
 
 export default function EssayDetail({ params }: { params: { id: string } }) {
   const router = useRouter();
