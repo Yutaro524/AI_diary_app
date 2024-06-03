@@ -1,6 +1,6 @@
-"use client";  // クライアントコンポーネントとしてマーク
+"use client";
 
-import { useRouter } from "next/navigation"; // next/navigation を使用
+import { useRouter } from "next/navigation";
 import { useAuth } from "@/context/auth";
 import { useEffect, useState } from "react";
 import { doc, getDoc } from "firebase/firestore";
@@ -15,7 +15,7 @@ export default function ClientEssayDetail({ id }: { id: string }) {
 
   useEffect(() => {
     if (!user) {
-      router.push('/login');
+      router.push('/');
       return;
     }
 

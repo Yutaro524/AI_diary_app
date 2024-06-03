@@ -1,7 +1,7 @@
-// src/app/essay/[id]/page.tsx
+"use client";
 
 import ClientEssayDetail from './ClientEssayDetail';
 
-export default function EssayDetail({ params }: { params: { id: string } }) {
+export default function Page({ params }: { params: { id: string } }) {
   return <ClientEssayDetail id={params.id} />;
 }
